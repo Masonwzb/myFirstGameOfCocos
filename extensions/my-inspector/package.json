@@ -1,0 +1,53 @@
+{
+    "package_version": 2,
+    "version": "2.2.4",
+    "name": "my-inspector",
+    "description": "i18n:my-inspector.description",
+    "main": "./dist/main.js",
+    "dependencies": {
+        "fs-extra": "^10.0.0",
+        "lodash": "^4.17.21",
+        "vue": "^3.2.26"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^9.0.5",
+        "@types/lodash": "^4.14.178",
+        "@types/node": "^16.0.1",
+        "typescript": "^4.3.4"
+    },
+    "panels": {
+        "default": {
+            "title": "simple-1640058918175 Default Panel",
+            "type": "dockable",
+            "main": "dist/panels/default/script",
+            "size": {
+                "min-width": 400,
+                "min-height": 300,
+                "width": 1024,
+                "height": 600
+            }
+        }
+    },
+    "contributions": {
+        "menu": [
+            {
+                "path": "i18n:menu.panel/simple-1640058918175",
+                "label": "i18n:simple-1640058918175.open_panel",
+                "message": "open-panel"
+            }
+        ],
+        "messages": {
+            "open-panel": {
+                "methods": [
+                    "openPanel"
+                ]
+            }
+        }
+    },
+    "author": "Cocos Creator",
+    "editor": ">=3.4.0",
+    "scripts": {
+        "build": "tsc -b",
+        "watch": "tsc -w"
+    }
+}

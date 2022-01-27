@@ -1,0 +1,8 @@
+.selected-node-position {
+    text-align: center;
+    padding: 20px 0;
+}
+.selected-node-position .input-style {
+    width: 100px;
+    margin-right: 10px;
+}
