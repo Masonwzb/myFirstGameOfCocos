@@ -13,6 +13,11 @@ const { ccclass, property } = _decorator;
  * ManualUrl = https://docs.cocos.com/creator/3.4/manual/zh/
  *
  */
+
+enum MyAnimation {
+    OneStep = 'oneStep',
+    TwoStep = 'twoStep'
+}
  
 @ccclass('PlayerController')
 export class PlayerController extends Component {
@@ -74,9 +79,9 @@ export class PlayerController extends Component {
         // 动画播放
         if (this.BodyAnim) {
             if (step === 1) {
-                this.BodyAnim.play('oneStep');
+                this.BodyAnim.play(MyAnimation.OneStep);
             } else if (step === 2) {
-                this.BodyAnim.play('twoStep');
+                this.BodyAnim.play(MyAnimation.TwoStep);
             }
         }
      }
