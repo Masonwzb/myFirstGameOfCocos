@@ -1,5 +1,6 @@
 
-import { _decorator, Component, Node, Prefab, instantiate, CCInteger } from 'cc';
+import {_decorator, Component, Node, Prefab, instantiate, CCInteger, Vec3, Label} from 'cc';
+import { PlayerController } from "./PlayerController";
 const { ccclass, property } = _decorator;
 
 /**
@@ -18,7 +19,18 @@ const { ccclass, property } = _decorator;
 enum BlockType {
     BT_NONE,
     BT_STONE,
-};
+}
+
+/**
+ 初始化（Init）：显示游戏菜单，初始化一些资源。
+ 游戏进行中（Playing）：隐藏游戏菜单，玩家可以操作角色进行游戏。
+ 结束（End）：游戏结束，显示结束菜单。
+ */
+enum  GameState {
+    GS_INIT,
+    GS_PLAYING,
+    GS_END
+}
  
 @ccclass('GameManager')
 export class GameManager extends Component {
@@ -33,8 +45,69 @@ export class GameManager extends Component {
 
     private _road: BlockType[] = [];
 
+    // 脚本中引用 PlayerController 脚本
+    @property({ type: PlayerController })
+    public playerCtrl: PlayerController | null = null;
+
+    // 动态地开启/关闭开始菜单
+    @property({ type: Node })
+    public startMenu: Node | null = null;
+
+    // 显示当前得分
+    @property({type: Label})
+    public stepsLabel: Label | null = null;
+
+    // *****************************************************************************************************************
     start () {
+        this.curState = GameState.GS_INIT;
+        // ?. 可选链写法
+        this.playerCtrl?.node.on('JumpEnd', this.onPlayerJumpEnd, this);
+    }
+    // *****************************************************************************************************************
+
+    init() {
+        // 激活主界面
+        if (this.startMenu) {
+            this.startMenu.active = true;
+        }
+        // 生成赛道
         this.generateRoad();
+        if (this.playerCtrl) {
+            // 禁止接收用户操作人物移动指令
+            this.playerCtrl.setInputActive(false);
+            // 重置人物位置
+            this.playerCtrl.node.setPosition(Vec3.ZERO);
+            // 重置 记录自己跳了多少步
+            this.playerCtrl.reset();
+        }
+    }
+
+    set curState (value: GameState) {
+        switch(value) {
+            case GameState.GS_INIT:
+                this.init();
+                break;
+            case GameState.GS_PLAYING:
+                if (this.startMenu) {
+                    this.startMenu.active = false;
+                }
+                
+                if (this.stepsLabel) {
+                    this.stepsLabel.string = '0';
+                }
+                
+                // 设置 active 为 true 时会直接开始监听鼠标事件，此时鼠标抬起事件还未派发
+                // 会出现的现象就是，游戏开始的瞬间人物已经开始移动
+                // 因此，这里需要做延迟处理
+                setTimeout(() => {
+                    if (this.playerCtrl) {
+                        this.playerCtrl.setInputActive(true);
+                    }
+                }, 100);
+                break;
+            case GameState.GS_END:
+                break;
+        }
     }
 
     generateRoad() {
@@ -79,6 +152,30 @@ export class GameManager extends Component {
 
         return block;
     }
+
+    onStartButtonClicked() {
+        this.curState = GameState.GS_PLAYING;
+    }
+
+    checkResult(moveIndex: number) {
+        if (moveIndex < this.roadLength) {
+            // 跳到了坑上
+            if (this._road[moveIndex] == BlockType.BT_NONE) {
+                this.curState = GameState.GS_INIT;
+            }
+        } else {    // 跳过了最大长度
+            this.curState = GameState.GS_INIT;
+        }
+    }
+
+    onPlayerJumpEnd(moveIndex: number) {
+        if (this.stepsLabel) {
+            // 因为在最后一步可能出现步伐大的跳跃，但是此时无论跳跃是步伐大还是步伐小都不应该多增加分数
+            this.stepsLabel.string = String(moveIndex >= this.roadLength ? this.roadLength : moveIndex);
+        }
+        this.checkResult(moveIndex);
+    }
+
 
     // update (deltaTime: number) {
     //     // [4]

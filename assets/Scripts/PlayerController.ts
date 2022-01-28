@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, Vec3, input, Input, EventMouse, Animation } from 'cc';
+import { _decorator, Component, Node, Vec3, input, Input, EventMouse, Animation, SkeletalAnimation } from 'cc';
 const { ccclass, property } = _decorator;
 
 /**
@@ -39,7 +39,7 @@ export class PlayerController extends Component {
     private _curJumpTime: number = 0;
 
     // 每次跳跃时长
-    private _jumpTime: number = 0.1;
+    private _jumpTime: number = 0.5;
 
     // 当前跳跃速度
     private _curJumpSpeed: number = 0;
@@ -53,9 +53,16 @@ export class PlayerController extends Component {
     // 角色目标位置
     private _targetPos: Vec3 = new Vec3();
 
-    // 添加动画
-    @property({ type: Animation })
-    public BodyAnim: Animation | null = null;
+    // 添加胶囊动画
+    // @property({ type: Animation })
+    // public BodyAnim: Animation | null = null;
+
+    // 记录自己跳了多少步
+    private _curMoveIndex = 0;
+
+    // 模型动画
+    @property({type: SkeletalAnimation})
+    public CocosAnim: SkeletalAnimation | null = null;
 
     onMouseUp(event: EventMouse) {
         if (event.getButton() === 0) {
@@ -76,21 +83,51 @@ export class PlayerController extends Component {
         this.node.getPosition(this._curPos);
         Vec3.add(this._targetPos, this._curPos, new Vec3(this._jumpStep, 0, 0));
 
-        // 动画播放
-        if (this.BodyAnim) {
-            if (step === 1) {
-                this.BodyAnim.play(MyAnimation.OneStep);
-            } else if (step === 2) {
-                this.BodyAnim.play(MyAnimation.TwoStep);
-            }
+        // 胶囊动画播放
+        // if (this.BodyAnim) {
+        //     if (step === 1) {
+        //         this.BodyAnim.play(MyAnimation.OneStep);
+        //     } else if (step === 2) {
+        //         this.BodyAnim.play(MyAnimation.TwoStep);
+        //     }
+        // }
+
+        // 模型动画
+        if (this.CocosAnim) {
+            this.CocosAnim.getState('cocos_anim_jump').speed = 3.5; // 跳跃动画时间比较长，这里加速播放
+            this.CocosAnim.play('cocos_anim_jump'); // 播放跳跃动画
+        }
+
+        this._curMoveIndex += step;
+        this.onOnceJumpEnd();
+    }
+
+     setInputActive(active: boolean) {
+        if (active) {
+            input.on(Input.EventType.MOUSE_UP, this.onMouseUp, this);
+        } else {
+            input.off(Input.EventType.MOUSE_UP, this.onMouseUp, this);
         }
      }
 
-    start () {
-        // Your initialization goes here.
-        input.on(Input.EventType.MOUSE_UP, this.onMouseUp, this);
+    onOnceJumpEnd() {
+        this.node.emit('JumpEnd', this._curMoveIndex);
     }
 
+    reset() {
+        this._curMoveIndex = 0;
+        this._curPos = new Vec3();
+        this._targetPos = new Vec3();
+    }
+
+    // *****************************************************************************************************************
+    start () {
+        // Your initialization goes here.
+        // input.on(Input.EventType.MOUSE_UP, this.onMouseUp, this);
+    }
+    // *****************************************************************************************************************
+
+    // *****************************************************************************************************************
     // deltaTime => 每次更新时间差
     update (deltaTime: number) {
         if (!this._startJump) {
@@ -102,6 +139,10 @@ export class PlayerController extends Component {
             // end
             this.node.setPosition(this._targetPos);
             this._startJump = false;
+            // 恢复默认动画
+            if (this.CocosAnim) {
+                this.CocosAnim.play('cocos_anim_idle')
+            }
         } else {
             this.node.getPosition(this._curPos);
             this._deltaPos.x = this._curJumpSpeed * deltaTime;
@@ -109,6 +150,7 @@ export class PlayerController extends Component {
             this.node.setPosition(this._curPos);
         }
     }
+    // *****************************************************************************************************************
 }
 
 /**
