@@ -19,6 +19,8 @@ module.exports = Editor.Panel.define({
     $: {
         app: '#app',
         text: '#text',
+        num: '.num',
+        button: '#myCustomBtn'
     },
     methods: {
         hello() {
@@ -27,8 +29,11 @@ module.exports = Editor.Panel.define({
                 console.log('[cocos-panel-html.default]: hello');
             }
         },
+        increasing(num) {
+            this.$.num.innerHTML = num.toString();
+        }
     },
-    ready() {
+    async ready() {
         if (this.$.text) {
             this.$.text.innerHTML = 'Hello Cocos.';
         }
@@ -58,13 +63,21 @@ module.exports = Editor.Panel.define({
                             method: 'log',
                             args: []
                         };
-                        const result = await Editor.Message.request('scene', 'execute-scene-script', options);
-                        console.log('获取数据-- ----- executeSceneScriptMethodOptions -- ', result);
+                        await Editor.Message.request('scene', 'execute-scene-script', options);
                     }
                 },
             });
             app.mount(this.$.app);
             weakMap.set(this, app);
+        }
+        if (this.$.button) {
+            this.$.button.addEventListener('click', () => {
+                console.log('btn click');
+                Editor.Message.send('simple-1640247617284', 'increasing');
+            });
+        }
+        if (this.$.num) {
+            this.$.num.innerHTML = await Editor.Message.request('simple-1640247617284', 'query-num');
         }
     },
     beforeClose() { },

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.unload = exports.load = exports.methods = void 0;
 //@ts-ignore
 const package_json_1 = __importDefault(require("../package.json"));
+let num = 666;
 /**
  * @en
  * @zh 为扩展的主进程的注册方法
@@ -16,6 +17,13 @@ exports.methods = {
     },
     log() {
         console.log('simple-1640247617284 -- log  methods');
+    },
+    queryNum() {
+        return num;
+    },
+    increasing() {
+        num++;
+        Editor.Message.broadcast('hello-world:increasing', num);
     }
 };
 /**

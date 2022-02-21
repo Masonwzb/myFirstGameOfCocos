@@ -1,7 +1,9 @@
 //@ts-ignore
 import packageJSON from '../package.json';
+
+let num = 0;
 /**
- * @en 
+ * @en
  * @zh 为扩展的主进程的注册方法
  */
 export const methods: { [key: string]: (...any: any) => any } = {
@@ -10,6 +12,13 @@ export const methods: { [key: string]: (...any: any) => any } = {
     },
     log() {
         console.log('simple-1640247617284 -- log  methods');
+    },
+    queryNum() {
+        return num;
+    },
+    increasing() {
+        num++;
+        Editor.Message.broadcast('hello-world:increasing', num);
     }
 };
 

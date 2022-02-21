@@ -58,6 +58,17 @@
                 "methods": [
                     "log"
                 ]
+            },
+            "increasing": {
+                "methods": [
+                    "increasing"
+                ]
+            },
+            "query-num":  {
+                "methods": ["queryNum"]
+            },
+            "hello-world:increasing": {
+                "methods": ["default.increasing"]
             }
         }
     },
