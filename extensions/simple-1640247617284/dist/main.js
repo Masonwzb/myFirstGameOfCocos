@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.unload = exports.load = exports.methods = void 0;
 //@ts-ignore
 const package_json_1 = __importDefault(require("../package.json"));
-let num = 666;
+let num = 0;
+const cache = {};
 /**
  * @en
  * @zh 为扩展的主进程的注册方法
@@ -24,6 +25,16 @@ exports.methods = {
     increasing() {
         num++;
         Editor.Message.broadcast('hello-world:increasing', num);
+    },
+    saveData(path, data) {
+        if (!Reflect.has(cache, path)) {
+            Reflect.set(cache, path, data);
+        }
+    },
+    queryData(path) {
+        const result = Reflect.get(cache, path);
+        Reflect.deleteProperty(cache, path);
+        return result;
     }
 };
 /**

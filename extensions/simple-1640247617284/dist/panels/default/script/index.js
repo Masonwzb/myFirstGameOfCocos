@@ -72,13 +72,21 @@ module.exports = Editor.Panel.define({
         }
         if (this.$.button) {
             this.$.button.addEventListener('click', () => {
-                console.log('btn click');
                 Editor.Message.send('simple-1640247617284', 'increasing');
             });
         }
         if (this.$.num) {
             this.$.num.innerHTML = await Editor.Message.request('simple-1640247617284', 'query-num');
         }
+        const tab = await Editor.Message.request('simple-1640247617284', 'query', 'tab');
+        const subTab = await Editor.Message.request('simple-1640247617284', 'query', 'subTab');
+        console.log('query something ? ', tab, subTab);
+        // 读取编辑器配置
+        const getEditorMsg = await Editor.Profile.getConfig('simple-1640247617284', 'test.a');
+        console.log('读取编辑器配置 ? ', getEditorMsg);
+        // 读取项目配置
+        const getProjectMsg = await Editor.Profile.getProject('simple-1640247617284', 'test.a');
+        console.log('读取项目配置 ? ', getProjectMsg);
     },
     beforeClose() { },
     close() {
@@ -86,5 +94,7 @@ module.exports = Editor.Panel.define({
         if (app) {
             app.unmount();
         }
+        Editor.Message.send('simple-1640247617284', 'upload', 'tab', 1);
+        Editor.Message.send('simple-1640247617284', 'upload', 'subTab', 0);
     },
 });

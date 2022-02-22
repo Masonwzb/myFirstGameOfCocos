@@ -28,6 +28,22 @@
         }
     },
     "contributions": {
+        "profile": {
+            "editor": {
+                "test.a": {
+                    "default": 0,
+                    "message": "editorTestAChanged",
+                    "label": "测试编辑器配置"
+                }
+            },
+            "project": {
+                "test.a": {
+                    "default": 1,
+                    "message": "projectTestAChanged",
+                    "label": "测试项目配置"
+                }
+            }
+        },
         "scene": {
             "script": "./src/panels/default/script/scene.js"
         },
@@ -69,6 +85,12 @@
             },
             "hello-world:increasing": {
                 "methods": ["default.increasing"]
+            },
+            "upload": {
+                "methods": ["saveData"]
+            },
+            "query": {
+                "methods": ["queryData"]
             }
         }
     },
