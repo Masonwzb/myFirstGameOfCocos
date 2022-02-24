@@ -1,6 +1,6 @@
 {
   "name": "NewProject-3D.4-1",
-  "type": "3d",
+  "type": "commonjs",
   "uuid": "ef9d0caf-8f47-4912-807f-28bc94086859",
   "version": "3.4.0",
   "creator": {
@@ -8,5 +8,8 @@
   },
   "dependencies": {
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.5"
   }
 }

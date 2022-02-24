@@ -1931,7 +1931,7 @@ declare module "cc" {
     }
     /**
      * @en
-     * The Mask Component.
+     * The Mask component.
      *
      * @zh
      * 遮罩组件。
@@ -2040,7 +2040,7 @@ declare module "cc" {
     }
     /**
      * @en
-     * The RichText Component.
+     * The RichText component.
      *
      * @zh
      * 富文本组件。
@@ -2963,7 +2963,7 @@ declare module "cc" {
      */
     /**
      * @en
-     * The Label Component.
+     * The Label component.
      *
      * @zh
      * 文字标签组件。
@@ -14134,12 +14134,12 @@ declare module "cc" {
          * @param name - The class name used for serialization.
          * @example
          * ```ts
-         * import { _decorator, Component } from 'cc';
+         * import { _decorator, component } from 'cc';
          * const {ccclass} = _decorator;
          *
          * // define a CCClass, omit the name
          *  @ccclass
-         * class NewScript extends Component {
+         * class NewScript extends component {
          *     // ...
          * }
          *
@@ -14177,12 +14177,12 @@ declare module "cc" {
          * @param requiredComponent The required component type
          * @example
          * ```ts
-         * import {_decorator, Sprite, Component} from cc;
+         * import {_decorator, Sprite, component} from cc;
          * import {ccclass, requireComponent} from _decorator;
          *
          * @ccclass
          * @requireComponent(Sprite)
-         * class SpriteCtrl extends Component {
+         * class SpriteCtrl extends component {
          *     // ...
          * }
          * ```
@@ -14192,15 +14192,15 @@ declare module "cc" {
          * @en Set the component priority, it decides at which order the life cycle functions of components will be invoked. Smaller priority get invoked before larger priority.
          * This will affect `onLoad`, `onEnable`, `start`, `update` and `lateUpdate`, but `onDisable` and `onDestroy` won't be affected.
          * @zh 设置脚本生命周期方法调用的优先级。优先级小于 0 的组件将会优先执行，优先级大于 0 的组件将会延后执行。优先级仅会影响 onLoad, onEnable, start, update 和 lateUpdate，而 onDisable 和 onDestroy 不受影响。
-         * @param priority - The execution order of life cycle methods for Component. Smaller priority get invoked before larger priority.
+         * @param priority - The execution order of life cycle methods for component. Smaller priority get invoked before larger priority.
          * @example
          * ```ts
-         * import { _decorator, Component } from 'cc';
+         * import { _decorator, component } from 'cc';
          * const {ccclass, executionOrder} = _decorator;
          *
          * @ccclass
          * @executionOrder(1)
-         * class CameraCtrl extends Component {
+         * class CameraCtrl extends component {
          *     // ...
          * }
          * ```
@@ -14211,12 +14211,12 @@ declare module "cc" {
          * @zh 防止多个相同类型（或子类型）的组件被添加到同一个节点。
          * @example
          * ```ts
-         * import { _decorator, Component } from 'cc';
+         * import { _decorator, component } from 'cc';
          * const {ccclass, disallowMultiple} = _decorator;
          *
          * @ccclass
          * @disallowMultiple
-         * class CameraCtrl extends Component {
+         * class CameraCtrl extends component {
          *     // ...
          * }
          * ```
@@ -14227,33 +14227,33 @@ declare module "cc" {
          * @en Makes a CCClass that inherit from component execute in edit mode.<br/>
          * By default, all components are only executed in play mode,<br/>
          * which means they will not have their callback functions executed while the Editor is in edit mode.<br/>
-         * @zh 允许继承自 Component 的 CCClass 在编辑器里执行。<br/>
-         * 默认情况下，所有 Component 都只会在运行时才会执行，也就是说它们的生命周期回调不会在编辑器里触发。
+         * @zh 允许继承自 component 的 CCClass 在编辑器里执行。<br/>
+         * 默认情况下，所有 component 都只会在运行时才会执行，也就是说它们的生命周期回调不会在编辑器里触发。
          * @example
          * ```ts
-         * import { _decorator, Component } from 'cc';
+         * import { _decorator, component } from 'cc';
          * const {ccclass, executeInEditMode} = _decorator;
          *
          *  @ccclass
          *  @executeInEditMode
-         * class NewScript extends Component {
+         * class NewScript extends component {
          *     // ...
          * }
          * ```
          */
         export const executeInEditMode: ClassDecorator & ((yes?: boolean) => ClassDecorator);
         /**
-         * @en Add the current component to the specific menu path in `Add Component` selector of the inspector panel
+         * @en Add the current component to the specific menu path in `Add component` selector of the inspector panel
          * @zh 将当前组件添加到组件菜单中，方便用户查找。例如 "Rendering/CameraCtrl"。
          * @param path - The path is the menu represented like a pathname. For example the menu could be "Rendering/CameraCtrl".
          * @example
          * ```ts
-         * import { _decorator, Component } from 'cc';
+         * import { _decorator, component } from 'cc';
          * const {ccclass, menu} = _decorator;
          *
          * @ccclass
          * @menu("Rendering/CameraCtrl")
-         * class NewScript extends Component {
+         * class NewScript extends component {
          *     // ...
          * }
          * ```
@@ -14264,13 +14264,13 @@ declare module "cc" {
          * @zh 当指定了 "executeInEditMode" 以后，playOnFocus 可以在选中当前组件所在的节点时，提高编辑器的场景刷新频率到 60 FPS，否则场景就只会在必要的时候进行重绘。
          * @example
          * ```ts
-         * import { _decorator, Component } from 'cc';
+         * import { _decorator, component } from 'cc';
          * const {ccclass, playOnFocus, executeInEditMode} = _decorator;
          *
          * @ccclass
          * @executeInEditMode
          * @playOnFocus
-         * class CameraCtrl extends Component {
+         * class CameraCtrl extends component {
          *     // ...
          * }
          * ```
@@ -14282,12 +14282,12 @@ declare module "cc" {
          * @param url The url of the page definition in js
          * @example
          * ```ts
-         * import { _decorator, Component } from 'cc';
+         * import { _decorator, component } from 'cc';
          * const {ccclass, inspector} = _decorator;
          *
          * @ccclass
          * @inspector("packages://inspector/inspectors/comps/camera-ctrl.js")
-         * class NewScript extends Component {
+         * class NewScript extends component {
          *     // ...
          * }
          * ```
@@ -14300,12 +14300,12 @@ declare module "cc" {
          * @private
          * @example
          * ```ts
-         * import { _decorator, Component } from 'cc';
+         * import { _decorator, component } from 'cc';
          * const {ccclass, icon} = _decorator;
          *
          *  @ccclass
          *  @icon("xxxx.png")
-         * class NewScript extends Component {
+         * class NewScript extends component {
          *     // ...
          * }
          * ```
@@ -14317,12 +14317,12 @@ declare module "cc" {
          * @param url The url of the help documentation
          * @example
          * ```ts
-         * import { _decorator, Component } from 'cc';
+         * import { _decorator, component } from 'cc';
          * const {ccclass, help} = _decorator;
          *
          * @ccclass
          * @help("app://docs/html/components/spine.html")
-         * class NewScript extends Component {
+         * class NewScript extends component {
          *     // ...
          * }
          * ```
@@ -20880,7 +20880,7 @@ declare module "cc" {
          * @en Adds a component class to the node. You can also add component to node by passing in the name of the script.
          * @zh 向节点添加一个指定类型的组件类，你还可以通过传入脚本的名称来添加组件。
          * @param classConstructor The class of the component to add
-         * @throws `TypeError` if the `classConstructor` does not specify a cc-class constructor extending the `Component`.
+         * @throws `TypeError` if the `classConstructor` does not specify a cc-class constructor extending the `component`.
          * @example
          * ```
          * var sprite = node.addComponent(Sprite);
@@ -20891,7 +20891,7 @@ declare module "cc" {
          * @en Adds a component class to the node. You can also add component to node by passing in the name of the script.
          * @zh 向节点添加一个指定类型的组件类，你还可以通过传入脚本的名称来添加组件。
          * @param className The class name of the component to add
-         * @throws `TypeError` if the `className` does not specify a cc-class constructor extending the `Component`.
+         * @throws `TypeError` if the `className` does not specify a cc-class constructor extending the `component`.
          * @example
          * ```
          * var test = node.addComponent("Test");
@@ -21829,7 +21829,7 @@ declare module "cc" {
      * // Let's say we have a MainMenu component on newTarget
      * // file: MainMenu.ts
      * @ccclass('MainMenu')
-     * export class MainMenu extends Component {
+     * export class MainMenu extends component {
      *     // sender: the node MainMenu.ts belongs to
      *     // eventType: CustomEventData
      *     onClick (sender, eventType) {
@@ -21837,8 +21837,8 @@ declare module "cc" {
      *     }
      * }
      *
-     * import { Component } from 'cc';
-     * const eventHandler = new Component.EventHandler();
+     * import { component } from 'cc';
+     * const eventHandler = new component.EventHandler();
      * eventHandler.target = newTarget;
      * eventHandler.component = "MainMenu";
      * eventHandler.handler = "OnClick";
@@ -21893,8 +21893,8 @@ declare module "cc" {
          * @param params - The arguments for invoking the callback
          * @example
          * ```ts
-         * import { Component } from 'cc';
-         * const eventHandler = new Component.EventHandler();
+         * import { component } from 'cc';
+         * const eventHandler = new component.EventHandler();
          * eventHandler.target = newTarget;
          * eventHandler.component = "MainMenu";
          * eventHandler.handler = "OnClick"
@@ -21907,8 +21907,8 @@ declare module "cc" {
      * @en
      * Base class for everything attached to Node(Entity).<br/>
      * <br/>
-     * NOTE: Not allowed to use construction parameters for Component's subclasses,
-     *       because Component is created by the engine.
+     * NOTE: Not allowed to use construction parameters for component's subclasses,
+     *       because component is created by the engine.
      * @zh
      * 所有附加到节点的基类。<br/>
      * <br/>
@@ -22166,7 +22166,7 @@ declare module "cc" {
          */
         unscheduleAllCallbacks(): void;
         /**
-         * @en Update is called every frame, if the Component is enabled.<br/>
+         * @en Update is called every frame, if the component is enabled.<br/>
          * This is a lifecycle method. It may not be implemented in the super class.<br/>
          * You can only call its super class method inside it. It should not be called manually elsewhere.
          * @zh 如果该组件启用，则每帧调用 update。<br/>
@@ -22175,7 +22175,7 @@ declare module "cc" {
          */
         protected update?(dt: number): void;
         /**
-         * @en LateUpdate is called every frame, if the Component is enabled.<br/>
+         * @en LateUpdate is called every frame, if the component is enabled.<br/>
          * This is a lifecycle method. It may not be implemented in the super class.<br/>
          * You can only call its super class method inside it. It should not be called manually elsewhere.
          * @zh 如果该组件启用，则每帧调用 LateUpdate。<br/>
@@ -22208,7 +22208,7 @@ declare module "cc" {
         protected onLoad?(): void;
         /**
          * @en
-         * Called before all scripts' update if the Component is enabled the first time.<br/>
+         * Called before all scripts' update if the component is enabled the first time.<br/>
          * Usually used to initialize some logic which need to be called after all components' `onload` methods called.<br/>
          * This is a lifecycle method. It may not be implemented in the super class.<br/>
          * You can only call its super class method inside it. It should not be called manually elsewhere.
@@ -22303,7 +22303,7 @@ declare module "cc" {
         protected onRestore?(): void;
     }
     /**
-     * @en The Camera Component.
+     * @en The Camera component.
      * @zh 相机组件。
      */
     export class Camera extends Component {
@@ -24837,7 +24837,7 @@ declare module "cc" {
     /**
      * @en
      * The AnimationState gives full control over animation playback process.
-     * In most cases the Animation Component is sufficient and easier to use. Use the AnimationState if you need full control.
+     * In most cases the Animation component is sufficient and easier to use. Use the AnimationState if you need full control.
      * @zh
      * AnimationState 完全控制动画播放过程。<br/>
      * 大多数情况下 动画组件 是足够和易于使用的。如果您需要更多的动画控制接口，请使用 AnimationState。
@@ -26020,7 +26020,7 @@ declare module "cc" {
      *
      * It's recommended to create `NodePool` instances by node type, the type corresponds to node type in game design, not the class,
      * for example, a prefab is a specific node type. <br/>
-     * When you create a node pool, you can pass a Component which contains `unuse`, `reuse` functions to control the content of node.<br/>
+     * When you create a node pool, you can pass a component which contains `unuse`, `reuse` functions to control the content of node.<br/>
      *
      * Some common use case is :<br/>
      *      1. Bullets in game (die very soon, massive creation and recreation, no side effect on other objects)<br/>
@@ -43684,7 +43684,7 @@ declare module "cc" {
     }
     /**
      * @en
-     * The Page View Indicator Component.
+     * The Page View Indicator component.
      *
      * @zh
      * 页面视图每页标记组件
@@ -48180,7 +48180,7 @@ declare module "cc" {
             invoke(dt: any): void;
         }
         /**
-         * @en The Manager for Component's life-cycle methods.
+         * @en The Manager for component's life-cycle methods.
          * It collaborates with [[NodeActivator]] to schedule and invoke life cycle methods for components
          * @zh 组件生命周期函数的调度器。
          * 它和 [[NodeActivator]] 一起调度并执行组件的生命周期函数。
@@ -49371,7 +49371,7 @@ declare module "cc" {
          */
         export enum cocos_core_animation_types_WrapMode {
             /**
-             * 向 Animation Component 或者 AnimationClip 查找 wrapMode
+             * 向 Animation component 或者 AnimationClip 查找 wrapMode
              */
             Default = 0,
             /**
@@ -50803,7 +50803,7 @@ declare module "cc" {
          */
         export interface cocos_physics_spec_i_lifecycle_ILifecycle {
             /**
-             * @en Update is called every frame, if the Component is enabled.<br/>
+             * @en Update is called every frame, if the component is enabled.<br/>
              * This is a lifecycle method. It may not be implemented in the super class.<br/>
              * You can only call its super class method inside it. It should not be called manually elsewhere.
              * @zh 如果该组件启用，则每帧调用 update。<br/>
@@ -50812,7 +50812,7 @@ declare module "cc" {
              */
             update?(dt: number): void;
             /**
-             * @en LateUpdate is called every frame, if the Component is enabled.<br/>
+             * @en LateUpdate is called every frame, if the component is enabled.<br/>
              * This is a lifecycle method. It may not be implemented in the super class.<br/>
              * You can only call its super class method inside it. It should not be called manually elsewhere.
              * @zh 如果该组件启用，则每帧调用 LateUpdate。<br/>
@@ -50845,7 +50845,7 @@ declare module "cc" {
             onLoad?(): void;
             /**
              * @en
-             * Called before all scripts' update if the Component is enabled the first time.<br/>
+             * Called before all scripts' update if the component is enabled the first time.<br/>
              * Usually used to initialize some logic which need to be called after all components' `onload` methods called.<br/>
              * This is a lifecycle method. It may not be implemented in the super class.<br/>
              * You can only call its super class method inside it. It should not be called manually elsewhere.

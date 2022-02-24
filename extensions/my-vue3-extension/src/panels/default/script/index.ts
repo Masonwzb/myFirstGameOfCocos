@@ -1,7 +1,10 @@
-import { readFileSync } from 'fs-extra';
-import { join } from 'path';
 import { createApp, App } from 'vue';
 const weakMap = new WeakMap<any, App>();
+import myApp from '@/component/App.vue';
+
+// @ts-ignore
+import myStyle from '@/style/myStyle.scss?inline';
+
 /**
  * @zh 如果希望兼容 3.3 之前的版本可以使用下方的代码
  * @en You can add the code below if you want compatibility with versions prior to 3.3
@@ -12,8 +15,8 @@ module.exports = Editor.Panel.define({
         show() { console.log('show'); },
         hide() { console.log('hide'); },
     },
-    template: readFileSync(join(__dirname, '../../../../static/template/default/index.html'), 'utf-8'),
-    style: readFileSync(join(__dirname, '../../../../static/style/default/index.css'), 'utf-8'),
+    template: `<div id="app"></div>`,
+    style: myStyle,
     $: {
         app: '#app',
         text: '#text',
@@ -31,23 +34,8 @@ module.exports = Editor.Panel.define({
             this.$.text.innerHTML = 'Hello Cocos.';
         }
         if (this.$.app) {
-            const app = createApp({});
+            const app = createApp(myApp);
             app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('ui-');
-            app.component('my-counter', {
-                template: readFileSync(join(__dirname, '../../../../static/template/vue/counter.html'), 'utf-8'),
-                data() {
-                    return {
-                        counter: 0,
-                    };
-                }, methods: {
-                    addition() {
-                        this.counter += 1;
-                    },
-                    subtraction() {
-                        this.counter -= 1;
-                    },
-                },
-            });
             app.mount(this.$.app);
             weakMap.set(this, app);
         }

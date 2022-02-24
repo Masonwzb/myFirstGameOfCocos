@@ -25,15 +25,24 @@ export default defineConfig(({command, mode}: ConfigEnv): UserConfig => {
     }
 
     return {
+        plugins: [vue(), vueJsx()],
         build: {
             rollupOptions: {
                 input: pathResolve('./src/panels/default/script/index.ts'),
                 output: {
-                    chunkFileNames: 'fuck.js'
+                    format: 'cjs',
+                    entryFileNames: '[name].js',
+                    chunkFileNames: '[name].js'
                 }
             },
-            outDir: pathResolve('./myPackaging/dist')
+            outDir: pathResolve('./dist/panels'),
+            minify: false,
         },
-        plugins: [vue(), vueJsx()],
+        resolve: {
+            alias: [{
+                find: /@\//,
+                replacement: pathResolve('src/panels') + '/'
+            }]
+        }
     }
 })
